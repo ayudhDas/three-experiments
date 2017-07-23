@@ -1,5 +1,8 @@
+import './index.css';
 import * as THREE from 'three';
 import Key from './keyboard';
+
+const pixel = require('./pixel.png');
 
 let rafHandle: null | number = null;
 // set the scene size
@@ -22,8 +25,12 @@ function setup():void {
     renderer.setSize(WIDTH, HEIGHT);
 
     // attach the render-supplied DOM element (the gameCanvas)
-    let c:HTMLElement = document.getElementById('root');
+    let c: HTMLElement = document.getElementById('root');
     c.appendChild(renderer.domElement);
+
+    let img: HTMLImageElement = document.createElement('img');
+    img.src = pixel;
+    document.body.appendChild(img);
 
     camera = new THREE.PerspectiveCamera(
         VIEW_ANGLE,

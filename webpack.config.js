@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const path = require('path');
 
@@ -15,31 +16,55 @@ const commonConfig = {
     },
     output: {
         path: PATHS.outDir,
-        filename: 'app.[name].[hash:6].js'
+        filename: '[name].[hash:6].js'
     },
     target: 'web',
     resolve: {
-        extensions: ['.js', '.ts'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: [path.resolve(__dirname, 'node_modules')]
     },
     module: {
         rules: [
             {
-                test: /.ts$/,
+                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+                exclude: /\.(jsx?|tsx?|css)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000
+                }
+            },
+            {
+                test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: ['babel-loader', 'ts-loader']
             },
             {
-                test: /.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: ['babel-loader']
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                        fallback: 'style-loader',
+                        use: [
+                                {
+                                    loader: 'css-loader',
+                                    options: {
+                                     importLoaders: 1,
+                                    }
+                                },
+                                'postcss-loader'
+                        ]
+                })
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: PATHS.indexHTML
-        })
+        }),
+        new ExtractTextPlugin('[name].[hash:6].css')
     ]
 };
 
