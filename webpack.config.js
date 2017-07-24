@@ -5,18 +5,20 @@ const merge = require('webpack-merge');
 const path = require('path');
 
 const PATHS = {
-    entry: path.join(__dirname, 'src/index.ts'),
+    entry: path.join(__dirname, 'src/index.tsx'),
     indexHTML: path.join(__dirname, 'public/index.html'),
     outDir: path.join(__dirname, 'dist')
 };
 
 const commonConfig = {
     entry: {
-        app: PATHS.entry
+        app: PATHS.entry,
+        vendor: ['react', 'react-dom']
     },
     output: {
         path: PATHS.outDir,
-        filename: '[name].[hash:6].js'
+        filename: '[name].[hash:6].js',
+        chunkFilename: '[name].[hash:6].js'
     },
     target: 'web',
     resolve: {
@@ -36,7 +38,17 @@ const commonConfig = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                use: ['babel-loader', 'ts-loader']
+                use: [
+                    {
+                        loader: 'string-replace-loader',
+                        options: {
+                            search: '_import(',
+                            replace: 'import('
+                        }
+                    },
+                    'babel-loader',
+                    'ts-loader'
+                ]
             },
             {
                 test: /\.jsx?$/,
@@ -61,17 +73,24 @@ const commonConfig = {
         ]
     },
     plugins: [
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor',
+            filename: 'dependencies.js',
+        }),
+        new ExtractTextPlugin('[name].[hash:6].css'),
         new HtmlWebpackPlugin({
             template: PATHS.indexHTML
         }),
-        new ExtractTextPlugin('[name].[hash:6].css')
     ]
 };
 
 const devConfig = {
     devtool: 'source-map',
     devServer: {
-        clientLogLevel: "warning",
+        contentBase: PATHS.outDir,
+        historyApiFallback: true,
+        clientLogLevel: 'warning',
         compress: true,
         port: 9000,
         noInfo: true,
@@ -86,17 +105,30 @@ const devConfig = {
 const prodConfig = {
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-                drop_console: false,
+            uglifyOptions:{
+                compress: {
+                    warnings: false,
+                    drop_console: false,
+                    drop_debugger: true,
+                }
             }
         })
     ]
 };
 
+const definePluginConfig = (env) => ({
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(env)
+            }
+        }),
+    ]
+});
+
 module.exports = (env) => {
     if(env === 'development'){
-        return merge(commonConfig, devConfig);
+        return merge(commonConfig, definePluginConfig(env), devConfig);
     }
-    return merge(commonConfig, prodConfig);
+    return merge(commonConfig, definePluginConfig(env), prodConfig);
 }

@@ -5,10 +5,16 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
+    "allowJs": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
     "lib": ["DOM","ES6","DOM.Iterable","ScriptHost"],
     "jsx": "preserve"
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

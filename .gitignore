@@ -1,4 +1,9 @@
+# generated dependencies and builds
 node_modules
 dist
 
+# IDE settings
 .idea
+
+# logs
+*.log
