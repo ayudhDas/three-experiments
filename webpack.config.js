@@ -13,7 +13,7 @@ const PATHS = {
 const commonConfig = {
     entry: {
         app: PATHS.entry,
-        vendor: ['react', 'react-dom']
+        vendor: ['react', 'react-dom', 'react-router-dom', 'redux', 'react-redux', 'three']
     },
     output: {
         path: PATHS.outDir,
