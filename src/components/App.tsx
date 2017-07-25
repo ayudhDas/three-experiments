@@ -1,3 +1,5 @@
+import './App.css';
+
 import * as React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import { Menu, MenuItem } from './Menu';
@@ -24,7 +26,9 @@ const GameWindow: React.ComponentClass<any> = asyncComponent({resolve: () => _im
 export default function App(): React.ReactElement<undefined> {
     return (
         <div>
-            <header>
+            <header className="app-header">
+                <h1>Three.js experiments</h1>
+                <h3>Powered by <a target="_blank" href="https://threejs.org/">three.js</a></h3>
                 <a target="_blank" href={`https://github.com/ayudhDas/three-experiments`}>
                     <img
                         style={{position: 'absolute', top: 0, right: 0, border: 0}}
@@ -33,7 +37,7 @@ export default function App(): React.ReactElement<undefined> {
                     />
                 </a>
             </header>
-            <section>
+            <section className="app-container">
                 <BrowserRouter>
                     <Switch>
                         <Route exact path="/" render={() => <Menu items={menuItems} />} />
@@ -42,6 +46,9 @@ export default function App(): React.ReactElement<undefined> {
                     </Switch>
                 </BrowserRouter>
             </section>
+            <footer className="app-footer">
+                <span>made with <span className="fa fa-heart-o fa-2x" /> by Ayudh Das using react, react-router and webpack</span>
+            </footer>
         </div>
     );
 }

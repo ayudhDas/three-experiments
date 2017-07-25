@@ -1,0 +1,13 @@
+@import '~font-awesome/css/font-awesome.css';
+
+.app-header {
+    text-align: center;
+}
+
+.app-container {
+    height: 77vh;
+}
+
+.app-footer {
+    text-align: center;
+}

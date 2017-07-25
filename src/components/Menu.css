@@ -1,0 +1,14 @@
+.menu-container {
+  text-align: center;
+  margin: 50px auto;
+  width: 1000px;
+  min-width: 900px;
+
+  & .menu-list-container {
+      list-style: none;
+
+      & .menu-list-item .menu-list-item-link {
+          text-decoration: none;
+      }
+    }
+}

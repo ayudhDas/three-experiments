@@ -28,12 +28,31 @@ const commonConfig = {
     module: {
         rules: [
             {
-                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-                exclude: /\.(jsx?|tsx?|css)$/,
+                test: /\.(png|jpg|gif|svg|eot|ttf)(\?.*)?$/,
+                exclude: /\.(jsx?|tsx?|css)(\?.*)?$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                },
+            },
+            {
+                test: /\.(png|jpg|gif|svg|eot|ttf)(\?.*)?$/,
+                exclude: /\.(jsx?|tsx?|css)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000
+                    limit: 10000,
+                    name: '[name].[ext]',
                 }
+            },
+            {
+                test:  /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    mimetype: 'application/font-woff',
+                    name: '[name].[ext]',
+                }
+
             },
             {
                 test: /\.tsx?$/,
@@ -63,7 +82,8 @@ const commonConfig = {
                                 {
                                     loader: 'css-loader',
                                     options: {
-                                     importLoaders: 1,
+                                        importLoaders: 1,
+                                        sourceMap: true,
                                     }
                                 },
                                 'postcss-loader'

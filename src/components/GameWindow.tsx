@@ -1,3 +1,4 @@
+import './GameWindow.css';
 import * as React from 'react';
 import * as THREE from 'three';
 
@@ -27,7 +28,7 @@ export default class GameWindow extends React.Component<undefined, undefined> {
 
     render() {
         return (
-            <div>
+            <div className="canvas-container">
                 <canvas ref={c => { this.canvas = c }} />
             </div>
         )
