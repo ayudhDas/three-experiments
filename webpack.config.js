@@ -22,14 +22,14 @@ const commonConfig = {
     },
     target: 'web',
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
         modules: [path.resolve(__dirname, 'node_modules')]
     },
     module: {
         rules: [
             {
-                test: /\.(png|jpg|gif|svg|eot|ttf)(\?.*)?$/,
-                exclude: /\.(jsx?|tsx?|css)(\?.*)?$/,
+                //make all files except for know types load through the file loader
+                exclude: /\.(html|json|jsx?|tsx?|css|png|jpg|gif|svg|eot|ttf|woff(2)?)(\?.*)?$/,
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',

@@ -23,7 +23,7 @@ function NoMatch(): React.ReactElement<undefined> {
 
 const GameWindow: React.ComponentClass<any> = asyncComponent({resolve: () => _import(/* webpackChunkName: "game-window" */'./GameWindow')});
 
-export default function App(): React.ReactElement<undefined> {
+export default function App(props: any): React.ReactElement<any> {
     return (
         <div>
             <header className="app-header">
@@ -48,6 +48,7 @@ export default function App(): React.ReactElement<undefined> {
             </section>
             <footer className="app-footer">
                 <span>made with <span className="fa fa-heart-o fa-2x" /> by Ayudh Das using react, react-router and webpack</span>
+                <img src={props.im} />
             </footer>
         </div>
     );
